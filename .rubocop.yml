@@ -1,0 +1,36 @@
+require:
+  - rubocop-rails
+AllCops:
+  Exclude:
+      - db/migrate/**/*
+      - db/schema.rb
+      - config/**/*
+      - script/**/*
+      - bin/**/*
+      - node_modules/**/*
+      - Gemfile
+      - Rakefile
+      - config.ru
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - "app/models/user.rb"
+
+Style/HashSyntax:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false

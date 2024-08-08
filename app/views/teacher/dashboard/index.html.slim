@@ -1,0 +1,75 @@
+nav.bg-violet-100.mb-4
+  .mx-auto.max-w-7xl.px-2.sm:px-6.lg:px-8
+    .relative.flex.h-16.items-center.justify-between
+      .flex-1
+        - if current_user
+          = link_to 'Выйти', destroy_user_session_path, data: { turbo_method: :delete }, class: "max-w-md mx-4 px-6 py-3 my-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      .text-center.w-full
+        h1.text-2xl.font-bold.mb-4 Кабинет Учителя
+      .flex-2
+        - if @current_user
+          span.mr-4.font-bold Здравствуйте, #{@current_user.name}!
+
+
+div.container.mx-auto
+  - if @current_table == 'teacher_students'
+    .mb-4
+      h2.text-xl.font-bold.mb-4 Список учеников
+      = turbo_frame_tag "filter"
+        = render partial: "filter_students", locals: { current_table: @current_table }
+        = render partial: 'components/teacher_students_table', locals: { students: @students }
+
+    .mt-8
+      - if @students.present?
+        = paginate @students, params: { student_name: params[:student_name], student_email: params[:student_email], student_phone: params[:student_phone] }
+
+  - elsif @current_table == 'student_grades'
+    = form_with model: Grade.new, url: teacher_grades_path, method: :post, local: true, class: "mb-4" do |form|
+      = hidden_field_tag :table, @current_table
+      .flex.space-x-4
+        div
+          = form.label :student_id, "Ученик", class: "p-2"
+          = form.collection_select :student_id, Student.all, :id, :name, prompt: "", class: "border border-gray-300 p-2 rounded"
+        div
+          = form.label :subject_id, "Предмет", class: "p-2"
+          - if @subjects.present?
+            = form.collection_select :subject_id, @subjects, :id, :name, prompt: "", class: "border border-gray-300 p-2 rounded"
+        div
+          = form.label :date, "Дата", class: "p-2"
+          = form.date_field :date, class: "border border-gray-300 p-2 rounded"
+        div
+          = form.label :value, "Оценка", class: "p-2"
+          = form.number_field :value, class: "border border-gray-300 p-2 rounded", in: 1..5
+      .flex.items-end
+        = render partial: 'components/form_button', locals: { form: form, name: 'Поставить оценку' }
+
+    div.mb-8
+      h2.text-xl.font-bold.mb-4 Отображение оценок и среднего балла по предмету для каждого ученика
+      = form_with url: teacher_dashboard_path(table: @current_table), method: :get, local: true, class: "mb-4" do |form|
+        = hidden_field_tag :table, @current_table
+        .flex.space-x-4
+          div
+            = form.label :subject_id, "Предмет", class: "p-2"
+            - if @subjects.present?
+              = form.select :subject_id, options_for_select(Subject.all.map { |sub| [sub.name, sub.id] }), include_blank: true, class: "border border-gray-300 p-2 rounded"
+        .flex.items-end
+          = render partial: 'components/form_button', locals: { form: form, name: 'Показать оценки и средний балл' }
+
+      - if @selected_subject
+        - @students.each do |student|
+          - grades = student.grades.where(subject_id: @selected_subject.id).order(:date)
+          - average_grade = grades.present? ? grades.average(:value).to_f : nil
+
+          div.mt-4
+            h3.text-lg.font-semibold.mb-2 Оценки для #{student.name} по предмету #{@selected_subject.name}
+
+            = render partial: 'components/student_grades_table', locals: { grades: grades}
+
+            - if average_grade.present?
+              p.mt-2 Средний балл: #{number_with_precision(average_grade, precision: 2)}
+            - else
+              p.mt-2 Средний балл: -
+
+  .flex.justify-center.mb-2
+    = link_to 'Студенты', teacher_dashboard_path(table: 'teacher_students'), class: 'mx-2 px-4 py-2 bg-indigo-600 text-white rounded'
+    = link_to 'Оценки', teacher_dashboard_path(table: 'student_grades'), class: 'mx-2 px-4 py-2 bg-pink-500 text-white rounded'

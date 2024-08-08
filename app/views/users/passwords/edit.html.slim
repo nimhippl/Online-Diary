@@ -1,0 +1,20 @@
+.flex.min-h-full.flex-col.justify-center.py-12.sm:px-6.lg:px-8
+  .sm:mx-auto.sm:w-full.sm:max-w-md
+    = image_tag 'arrow-in.svg', alt: 'Лого', class: 'mx-auto h-10 w-auto'
+    h2.mt-6.text-center.text-2xl.font-bold.leading-9.tracking-tight.text-gray-900 Изменение пароля
+
+    div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]"
+    div.bg-violet-50.px-6.py-12.shadow.sm:rounded-lg.sm:px-12
+      = form_with(model: resource, url: password_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f|
+        = f.hidden_field :reset_password_token, value: params[:reset_password_token]
+
+        div.mb-4
+          = f.label :password, "Новый пароль", class: "block text-sm font-medium text-gray-700"
+          = f.password_field :password, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", autocomplete: "new-password", placeholder: "Новый пароль"
+
+        div.mb-6
+          = f.label :password_confirmation, "Подтверждение нового пароля", class: "block text-sm font-medium text-gray-700"
+          = f.password_field :password_confirmation, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", autocomplete: "new-password", placeholder: "Подтверждение пароля"
+
+        div.flex.items-center.justify-between.mb-4
+          = f.submit "Изменить пароль", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

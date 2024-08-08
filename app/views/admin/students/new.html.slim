@@ -1,0 +1,15 @@
+.px-4.sm:px-6.lg:px-8
+  h1.text-2xl.font-bold.mb-12.my-12 Новый ученик
+  = form_with(model: @student, url: admin_students_path, method: :post) do |form|
+    .mb-4.mx-4
+      = form.label :name, "Имя ученика", class: "block text-gray-700 text-base font-bold mb-2"
+      = form.text_field :name, class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    .mb-4.mx-4
+      = form.label :phone_number, "Номер телефона ученика", class: "block text-gray-700 text-base font-bold mb-2"
+      = form.text_field :phone_number, id: "student_phone_number", class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    .mb-4.mx-4
+      = form.label :email,"Email ученика", class: "block text-gray-700 text-base font-bold mb-2"
+      = form.text_field :email, class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    div
+      = render partial: 'components/form_button', locals: { form: form, name: 'Добавить ученика' }
+  = link_to 'Назад', admin_dashboard_path(table: 'students'), class: "block mt-4 py-2 px-4 bg-gray-200 text-gray-800 rounded-md shadow hover:bg-gray-300 focus:outline-none focus:bg-gray-300"

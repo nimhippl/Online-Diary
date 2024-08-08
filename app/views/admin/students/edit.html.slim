@@ -1,0 +1,15 @@
+.px-4.sm:px-6.lg:px-8
+  h1.text-2xl.font-bold.mb-12.my-12 Редактировать ученика
+  = form_with(model: @student, url: admin_student_path(@student), method: :patch, class: "space-y-4") do |form|
+    .space-y-2
+      = form.label :name, "Имя ученика", class: "block font-medium text-gray-700"
+      = form.text_field :name, class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    .space-y-2
+      = form.label :phone_number, "Номер телефона ученика", class: "block font-medium text-gray-700"
+      = form.text_field :phone_number, class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    .space-y-2
+      = form.label :email, "Email ученика", class: "block font-medium text-gray-700"
+      = form.email_field :email, class: "form-input w-full rounded-md border border-gray-600 shadow-lg focus:outline-none focus:border-violet-500 px-2"
+    .flex.justify-end
+      = render partial: 'components/form_button', locals: { form: form, name: 'Обновить данные об ученике' }
+  = link_to 'Назад', admin_dashboard_path(table: 'students'), class: "block mt-4 py-2 px-4 bg-gray-200 text-gray-800 rounded-md shadow hover:bg-gray-300 focus:outline-none focus:bg-gray-300"

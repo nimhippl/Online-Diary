@@ -1,0 +1,8 @@
+tr id="#{dom_id(student)}"
+  td.py-2.px-4.border.border-gray-300 = student.name
+  td.py-2.px-4.border.border-gray-300 = student.email
+  td.py-2.px-4.border.border-gray-300 = student.phone_number
+  td.py-2.px-4.border.border-gray-300
+    = link_to 'Редактировать', edit_admin_student_path(student), target: :_top, class: "text-blue-500 hover:underline mr-2"
+    |
+    = link_to "Удалить", destroy_admin_student_path(student), method: :delete, data: { confirm: 'Вы уверены?' }, class: "text-red-500 hover:underline"

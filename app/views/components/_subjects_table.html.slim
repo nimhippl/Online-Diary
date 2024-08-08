@@ -1,0 +1,16 @@
+= turbo_stream_from 'subjects'
+table.w-full.border-collapse.border.border-gray-300
+  thead.bg-gray-200
+    tr
+      th.py-2.px-4.border.border-gray-300 Название предмета
+      th.py-2.px-4.border.border-gray-300 Имя учителя
+      th.py-2.px-4.border.border-gray-300 Доступные действия
+  tbody#tr_table
+    tr
+    - if subjects.present?
+      - subjects.each do |subject|
+        = turbo_stream_from subject
+        = render partial: 'components/subject', locals: { subject: subject }
+    - else
+      tr
+        td.py-2.px-4.border.border-gray-300.text-center colspan="3" Нет предметов для отображения

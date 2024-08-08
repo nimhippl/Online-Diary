@@ -1,0 +1,16 @@
+table.w-full.border-collapse.border.border-gray-300
+  thead.bg-gray-200
+    tr
+      th.py-2.px-4.border.border-gray-300 Имя
+      th.py-2.px-4.border.border-gray-300 Email
+      th.py-2.px-4.border.border-gray-300 Номер телефона
+  tbody
+    - if @students.present?
+      - @students.each do |student|
+        tr
+          td.py-2.px-4.border.border-gray-300 #{student.name}
+          td.py-2.px-4.border.border-gray-300 #{student.email}
+          td.py-2.px-4.border.border-gray-300 #{student.phone_number}
+    - else
+      tr
+        td.py-2.px-4.border.border-gray-300.text-center[colspan="3"] Нет учеников для отображения

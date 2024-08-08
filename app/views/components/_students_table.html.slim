@@ -1,0 +1,16 @@
+= turbo_stream_from 'students'
+table.w-full.border-collapse.border.border-gray-300
+  thead.bg-gray-200
+    tr
+      th.py-2.px-4.border.border-gray-300 Имя ученика
+      th.py-2.px-4.border.border-gray-300 Email ученика
+      th.py-2.px-4.border.border-gray-300 Номер телефона ученика
+      th.py-2.px-4.border.border-gray-300 Доступные действия
+  tbody#tr_table
+    - if @students.present?
+      - @students.each do |student|
+        = turbo_stream_from student
+        = render partial: 'components/student', locals: { student: student }
+    - else
+      tr
+        td.py-2.px-4.border.border-gray-300.text-center colspan="4" Нет учеников для отображения

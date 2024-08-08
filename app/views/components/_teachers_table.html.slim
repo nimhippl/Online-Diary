@@ -1,0 +1,16 @@
+table.w-full.border-collapse.border.border-gray-300
+  thead.bg-gray-200
+    tr
+      th.py-2.px-4.border.border-gray-300 Имя учителя
+      th.py-2.px-4.border.border-gray-300 Email учителя
+      th.py-2.px-4.border.border-gray-300 Номер телефона учителя
+  tbody
+    - if @teachers.present?
+      - @teachers.each do |teacher|
+        tr
+          td.py-2.px-4.border.border-gray-300 = teacher.name
+          td.py-2.px-4.border.border-gray-300 = teacher.email
+          td.py-2.px-4.border.border-gray-300 = teacher.phone_number
+    - else
+      tr
+        td.py-2.px-4.border.border-gray-300.text-center colspan="3" Нет преподавателей для отображения

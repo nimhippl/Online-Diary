@@ -1,0 +1,18 @@
+.nav data-controller="home" class="bg-violet-100"
+  .mx-auto.max-w-7xl.px-2.sm:px-6.lg:px-8
+    .relative.flex.h-16.items-center.justify-end
+      - if @current_user.present?
+        .text-base.font-medium.text-white
+          = @current_user.name
+        = render partial: 'components/button', locals: { url: destroy_user_session_path, name: 'Выйти' }
+      - else
+        = render partial: 'components/button', locals: { url: new_user_session_path, name: 'Войти' }
+        = render partial: 'components/button', locals: { url: new_user_registration_path, name: 'Зарегистрироваться' }
+
+div.text-center.mt-20.py-12
+  h1.text-5xl.font-bold.mb-8 Добро пожаловать в Онлайн Дневник!
+  p.text-2xl Для просмотра контента и возможностей, пожалуйста, войдите или зарегистрируйтесь!
+  = image_tag 'user-check.svg', alt: 'Лого', class: 'mx-auto h-40 w-auto py-12'
+  == javascript_include_tag 'main', 'data-turbo-track': 'reload', type: 'module'
+  body data-turbo="false"
+

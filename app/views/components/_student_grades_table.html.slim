@@ -1,0 +1,15 @@
+table.w-full.border-collapse.border.border-gray-300
+  thead.bg-gray-200
+    tr
+      th.py-2.px-4.border.border-gray-300 Дата
+      th.py-2.px-4.border.border-gray-300 Оценка
+  tbody
+    - if grades.present?
+      - grades.each do |grade|
+        tr
+          td.py-2.px-4.border.border-gray-300 = grade.decorate.formatted_date
+          td.py-2.px-4.border.border-gray-300 = grade.value
+    - else
+      tr
+        td.py-2.px-4.border.border-gray-300.text-center -
+        td.py-2.px-4.border.border-gray-300.text-center -

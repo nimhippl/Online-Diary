@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+until pg_isready -h "$DATABASE_HOST" -p "$DATABASE_PORT" -U "$DATABASE_USERNAME"; do
+  echo >&2 "Postgres is unavailable - sleeping"
+  sleep 1
+done
+
+rm -f tmp/pids/server.pid
+
+bundle exec rails db:migrate 2>/dev/null || bundle exec rails db:create db:migrate
+echo "Database has been created & migrated!"
+
+exec "$@"

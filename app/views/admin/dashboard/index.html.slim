@@ -1,0 +1,50 @@
+nav.bg-violet-100.mb-4
+  .mx-auto.max-w-7xl.px-2.sm:px-6.lg:px-8
+    .relative.flex.h-16.items-center.justify-between
+      .flex-1
+        - if current_user
+          = link_to 'Выйти', destroy_user_session_path, data: { turbo_method: :delete }, class: "max-w-md mx-4 px-6 py-3 my-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      .text-center.w-full
+        h1.text-2xl.font-bold.mb-4 Кабинет Администратора
+      .flex-2
+        - if @current_user
+          span.mr-4.font-bold Здравствуйте, #{@current_user.name}!
+
+.container.mx-auto
+  - if @current_table == 'subjects'
+    .mb-4
+      h2.text-xl.font-bold.mb-4 Список предметов
+      = turbo_frame_tag "filter"
+        = render partial: "filter_subjects", locals: { current_table: @current_table }
+        = render partial: 'components/subjects_table', locals: { subjects: @subjects }
+    .mt-8
+      = render partial: 'components/button', locals: { url: new_admin_subject_path, name: 'Добавить предмет' }, class: "my-12"
+    .mt-8
+      = paginate @subjects, params: { subject_name: params[:subject_name], teacher_name: params[:teacher_name] }
+
+  - elsif @current_table == 'teachers'
+    .mb-4
+      h2.text-xl.font-bold.mb-4 Список учителей
+      = turbo_frame_tag "filter"
+        = render partial: "filter_teachers", locals: { current_table: @current_table }
+        = render partial: 'components/teachers_table', locals: { teachers: @teachers }
+    .mt-8
+      = paginate @teachers, params: { teacher_name: params[:teacher_name], teacher_email: params[:teacher_email], teacher_phone: params[:teacher_phone] }
+
+  - elsif @current_table == 'students'
+    .mb-4
+      h2.text-xl.font-bold.mb-4 Список учеников
+      = turbo_frame_tag "filter"
+        = render partial: "filter_students", locals: { current_table: @current_table }
+        = render partial: 'components/students_table', locals: { students: @students }
+    .mt-8
+      = render partial: 'components/button', locals: { url: new_admin_student_path, name: 'Добавить ученика' }, class: "my-12"
+    .mt-8
+      = paginate @students, params: { student_name: params[:student_name], student_email: params[:student_email], student_phone: params[:student_phone] }
+
+  .flex.justify-center.mb-2
+    = link_to 'Предметы', admin_dashboard_path(table: 'subjects'), class: 'mx-2 px-4 py-2 bg-indigo-600 text-white rounded'
+    = link_to 'Учителя', admin_dashboard_path(table: 'teachers'), class: 'mx-2 px-4 py-2 bg-pink-500 text-white rounded'
+    = link_to 'Студенты', admin_dashboard_path(table: 'students'), class: 'mx-2 px-4 py-2 bg-purple-600 text-white rounded'
+
+
